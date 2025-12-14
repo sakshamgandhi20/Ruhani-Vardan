@@ -1,5 +1,6 @@
+
 export type Language = 'en' | 'hi';
-export type PageState = 'home' | 'meditation' | 'blessing';
+export type PageState = 'drishti' | 'home' | 'meditation' | 'blessing';
 
 export interface Translation {
   title: string;
@@ -12,6 +13,8 @@ export interface Translation {
   shareBtn: string;
   homeBtn: string;
   footer: string;
+  drishtiTitle: string;
+  drishtiButton: string;
 }
 
 export interface ThemeOption {

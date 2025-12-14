@@ -16,7 +16,16 @@ const MeditationPage: React.FC<MeditationPageProps> = ({ language, onComplete })
     // Play Audio
     audioRef.current = new Audio(ASSETS.bgMusic);
     audioRef.current.volume = 0.5;
-    audioRef.current.play().catch(e => console.log("Audio play failed (user interaction needed usually):", e));
+    audioRef.current.loop = true;
+    
+    // Attempt to play - browsers often block auto-play without interaction, 
+    // but since the user clicked "Start" on Home, this usually works.
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log("Auto-play was prevented. Interaction needed.", error);
+      });
+    }
 
     // Timer
     const timer = setInterval(() => {
@@ -52,55 +61,69 @@ const MeditationPage: React.FC<MeditationPageProps> = ({ language, onComplete })
       clearTimeout(completeTimeout);
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.src = "";
       }
     };
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-red-950">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-[#2a0a00]">
       
-      {/* Paramdham Background: Radial gradient from bright golden center to deep red edges */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-200 via-orange-600 to-red-950"></div>
+      {/* Paramdham Background: 
+          True Paramdham gradient: Bright Gold Center -> Orange -> Deep Red/Brown edges. 
+      */}
+      <div 
+        className="absolute inset-0 w-full h-full"
+        style={{
+          background: 'radial-gradient(circle at center, #fff7ed 0%, #fbbf24 15%, #ea580c 40%, #7c2d12 70%, #451a03 100%)'
+        }}
+      ></div>
       
-      {/* Subtle texture/overlay for depth (optional but nice for the 'infinite' feel) */}
-      <div className="absolute inset-0 bg-white opacity-5 mix-blend-overlay pointer-events-none"></div>
+      {/* Subtle cloud texture/noise for ethereal feel */}
+      <div className="absolute inset-0 opacity-20 mix-blend-soft-light bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
 
       {/* The Point of Light (Shiv Baba) Animation */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full space-y-16">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full space-y-20">
         
-        {/* The Star */}
-        <div className="relative transform scale-125">
-            {/* Core white light - The Supreme Soul */}
-            <div className="w-3 h-4 bg-white rounded-[100%] shadow-[0_0_50px_10px_white] z-20 relative animate-pulse"></div>
+        {/* The Supreme Soul Light */}
+        <div className="relative">
+            {/* The Core Point */}
+            <div className="w-2 h-2 md:w-3 md:h-3 bg-white rounded-full shadow-[0_0_20px_5px_white] z-30 relative animate-pulse"></div>
             
-            {/* Inner Gold Aura */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-yellow-200/40 rounded-full blur-xl animate-ping-slow"></div>
+            {/* Immediate Golden Aura */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-yellow-100/50 rounded-full blur-md animate-pulse"></div>
+
+            {/* Expanding Rays Aura */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-yellow-400/30 rounded-full blur-xl animate-ping-slow"></div>
             
-            {/* Outer Red/Orange Aura */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/20 rounded-full blur-2xl"></div>
+            {/* Deep Red Outer Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-600/20 rounded-full blur-2xl"></div>
             
-            {/* Rays of Light - Divine Radiance */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent rotate-45 opacity-60"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent -rotate-45 opacity-60"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent rotate-90 opacity-60"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[1px] bg-gradient-to-r from-transparent via-yellow-100 to-transparent opacity-60"></div>
+            {/* Divine Rays - Sharper and more distinct */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vh] h-[2px] bg-gradient-to-r from-transparent via-white/40 to-transparent rotate-0"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vh] h-[2px] bg-gradient-to-r from-transparent via-white/40 to-transparent rotate-90"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vh] h-[1px] bg-gradient-to-r from-transparent via-yellow-200/30 to-transparent rotate-45"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vh] h-[1px] bg-gradient-to-r from-transparent via-yellow-200/30 to-transparent -rotate-45"></div>
         </div>
 
         {/* Text */}
-        <div className="text-center space-y-4 animate-fade-in-up mt-12 px-4">
-            <h2 className="text-3xl md:text-4xl text-yellow-50 font-medium tracking-widest uppercase drop-shadow-lg">
+        <div className="text-center space-y-4 animate-fade-in-up mt-8 px-6">
+            <h2 className="text-2xl md:text-4xl text-white font-semibold tracking-[0.2em] uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
                 {t.meditating}
             </h2>
-            <p className="text-yellow-200/90 text-lg font-hindi drop-shadow-md tracking-wide">
+            <p className="text-yellow-100 text-lg md:text-xl font-hindi drop-shadow-md tracking-wide opacity-90">
                 {language === 'hi' ? 'परमपिता परमात्मा शिव बाबा की याद में...' : 'In loving remembrance of the Supreme Soul...'}
             </p>
         </div>
 
       </div>
 
-      {/* Timer Bar - Adjusted to match theme (Golden progress on Red) */}
-      <div className="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-red-900 via-yellow-400 to-red-900 transition-all duration-1000 ease-linear shadow-[0_0_15px_rgba(253,224,71,0.5)]"
-           style={{ width: `${(timeLeft / 10) * 100}%` }}>
+      {/* Timer Bar - Subtle bottom loader */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-red-950">
+        <div 
+            className="h-full bg-yellow-400 shadow-[0_0_10px_#facc15] transition-all duration-1000 ease-linear"
+            style={{ width: `${(timeLeft / 10) * 100}%` }}
+        ></div>
       </div>
     </div>
   );

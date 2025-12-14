@@ -1,20 +1,27 @@
+
 import React, { useState, useEffect } from 'react';
 import { PageState, UserData, Language } from './types';
 import { ASSETS, BLESSINGS_DATA } from './constants';
 import HomePage from './components/HomePage';
 import MeditationPage from './components/MeditationPage';
 import BlessingPage from './components/BlessingPage';
+import DrishtiPage from './components/DrishtiPage';
 
 const App: React.FC = () => {
-  const [page, setPage] = useState<PageState>('home');
+  // Start with Drishti Page
+  const [page, setPage] = useState<PageState>('drishti');
   const [language, setLanguage] = useState<Language>('hi');
   const [userData, setUserData] = useState<UserData>({ name: '', vardan: '' });
 
-  // Preload audio
+  // Preload audio assets slightly
   useEffect(() => {
     const audio = new Audio(ASSETS.bgMusic);
     audio.load();
   }, []);
+
+  const handleDrishtiComplete = () => {
+    setPage('home');
+  };
 
   const handleStart = (name: string) => {
     setUserData({ ...userData, name });
@@ -33,6 +40,7 @@ const App: React.FC = () => {
 
   const handleReset = () => {
     setUserData({ name: '', vardan: '' });
+    // Go back to home, not Drishti, for repeated uses
     setPage('home');
   };
 
@@ -42,6 +50,14 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen font-sans bg-white ${language === 'hi' ? 'font-hindi' : ''}`}>
+      
+      {page === 'drishti' && (
+        <DrishtiPage 
+            language={language}
+            onComplete={handleDrishtiComplete}
+        />
+      )}
+
       {page === 'home' && (
         <HomePage 
           language={language} 

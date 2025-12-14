@@ -1,3 +1,4 @@
+
 import { Language, Translation, ThemeOption, Blessing } from './types';
 
 export const ASSETS = {
@@ -5,7 +6,9 @@ export const ASSETS = {
   bgMusic: "https://cdn.pixabay.com/download/audio/2022/03/09/audio_c8c8a73467.mp3?filename=meditation-impulse-30115.mp3",
   // Generic spiritual/light glow image representing the Supreme Soul
   shivBabaImage: "https://images.unsplash.com/photo-1518155317743-a8ff43ea6a5f?q=80&w=1000&auto=format&fit=crop", 
-  logo: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Brahma_Kumaris_World_Spiritual_University_Logo.svg/1200px-Brahma_Kumaris_World_Spiritual_University_Logo.svg.png" 
+  logo: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cf/Brahma_Kumaris_World_Spiritual_University_Logo.svg/1200px-Brahma_Kumaris_World_Spiritual_University_Logo.svg.png",
+  // BapDada Image for Drishti - using a reliable public source
+  bapDadaImage: "https://pbs.twimg.com/media/FjU8x_aWAAMbC1_.jpg"
 };
 
 export const TRANSLATIONS: Record<Language, Translation> = {
@@ -20,6 +23,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     shareBtn: "Share",
     homeBtn: "Receive Another",
     footer: "Om Shanti",
+    drishtiTitle: "Receive Drishti from BapDada",
+    drishtiButton: "Om Shanti (Start)",
   },
   hi: {
     title: "दिव्य वरदान",
@@ -32,6 +37,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     shareBtn: "साझा करें",
     homeBtn: "पुनः प्राप्त करें",
     footer: "ओम शांति",
+    drishtiTitle: "बापदादा से दृष्टि प्राप्त करें",
+    drishtiButton: "ओम शांति (प्रारंभ)",
   }
 };
 
